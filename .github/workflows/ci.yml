@@ -29,3 +29,4 @@ jobs:
 
       - name: Run HyperFrames Check (Lint, Runtime, Layout, Motion, Contrast)
         run: npm run check
+

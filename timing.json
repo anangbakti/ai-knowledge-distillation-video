@@ -1,0 +1,85 @@
+{
+  "voice": "af_heart",
+  "sample_rate": 24000,
+  "total_duration": 65.69,
+  "total_frames_30fps": 1971,
+  "scenes": [
+    {
+      "scene_id": "scene_1",
+      "name": "Hook & The Big Robot",
+      "text": "Imagine this. There is a giant robot who is super smart. Why? Because it has read millions of books! But... it's huge, drains massive amounts of power, and runs really slow.",
+      "audio_file": "audio/scene_1.wav",
+      "start_time": 0.0,
+      "end_time": 11.81,
+      "duration": 11.81,
+      "start_frame_30fps": 0,
+      "duration_frames_30fps": 354
+    },
+    {
+      "scene_id": "scene_2",
+      "name": "The Small Robot",
+      "text": "Then, there's a tiny robot. It wants to be smart too, but it simply cannot read millions of books.",
+      "audio_file": "audio/scene_2.wav",
+      "start_time": 12.11,
+      "end_time": 18.14,
+      "duration": 6.03,
+      "start_frame_30fps": 363,
+      "duration_frames_30fps": 181
+    },
+    {
+      "scene_id": "scene_3",
+      "name": "The Question",
+      "text": "So, how does it do it? It learns directly from the big robot!",
+      "audio_file": "audio/scene_3.wav",
+      "start_time": 18.44,
+      "end_time": 22.14,
+      "duration": 3.7,
+      "start_frame_30fps": 553,
+      "duration_frames_30fps": 111
+    },
+    {
+      "scene_id": "scene_4",
+      "name": "The 3 Steps",
+      "text": "Here is how: First, we ask the giant robot tons of questions. Second, the tiny robot observes every single answer. Third, it mimics how the big robot thinks and responds. And boom! The tiny robot is now super smart, almost like the big one!",
+      "audio_file": "audio/scene_4.wav",
+      "start_time": 22.44,
+      "end_time": 39.21,
+      "duration": 16.76,
+      "start_frame_30fps": 673,
+      "duration_frames_30fps": 503
+    },
+    {
+      "scene_id": "scene_5",
+      "name": "The Sibling Analogy",
+      "text": "It's just like a younger kid learning from an older sibling. No need to start from zero\u2014just learn the smart shortcuts!",
+      "audio_file": "audio/scene_5.wav",
+      "start_time": 39.51,
+      "end_time": 46.59,
+      "duration": 7.08,
+      "start_frame_30fps": 1185,
+      "duration_frames_30fps": 212
+    },
+    {
+      "scene_id": "scene_6",
+      "name": "Why It Matters",
+      "text": "Why does this matter? Because the tiny robot can fit right on your smartphone, responds in a flash, and costs almost nothing to run.",
+      "audio_file": "audio/scene_6.wav",
+      "start_time": 46.89,
+      "end_time": 54.86,
+      "duration": 7.97,
+      "start_frame_30fps": 1407,
+      "duration_frames_30fps": 239
+    },
+    {
+      "scene_id": "scene_7",
+      "name": "Outro & Knowledge Distillation",
+      "text": "In AI, this is called Knowledge Distillation. It's how massive reasoning models like DeepSeek-R1 get compressed into lightweight models you can run anywhere.",
+      "audio_file": "audio/scene_7.wav",
+      "start_time": 55.16,
+      "end_time": 65.39,
+      "duration": 10.23,
+      "start_frame_30fps": 1655,
+      "duration_frames_30fps": 307
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "ai-knowledge-distillation-video",
+  "version": "1.0.0",
+  "description": "Deterministic code-based short-form video explaining AI Knowledge Distillation using HyperFrames and Kokoro-ONNX",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.9.19 preview",
+    "dev:square": "npx --yes hyperframes@0.9.19 preview -c compositions/square.html",
+    "check": "npx --yes hyperframes@0.9.19 check",
+    "check:square": "npx --yes hyperframes@0.9.19 check -c compositions/square.html",
+    "snapshot": "npx --yes hyperframes@0.9.19 snapshot --at 1,20,35,50",
+    "voiceover": "python generate_voiceover.py",
+    "render": "npm run render:9x16",
+    "render:9x16": "npx --yes hyperframes@0.9.19 render index.html -o renders/robot-distillation-9x16.mp4",
+    "render:1x1": "npx --yes hyperframes@0.9.19 render -c compositions/square.html -o renders/robot-distillation-square.mp4",
+    "render:all": "npm run render:9x16 && npm run render:1x1"
+  },
+  "keywords": [
+    "hyperframes",
+    "kokoro-onnx",
+    "gsap",
+    "motion-graphics",
+    "knowledge-distillation",
+    "instagram-reels",
+    "twitter-video",
+    "html-video"
+  ],
+  "author": "Anang Bakti",
+  "license": "Apache-2.0"
+}
+

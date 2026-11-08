@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en" data-resolution="square">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        margin: 0;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        background: #090d16;
+        color: #ffffff;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      .clip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1080px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 70px 50px 60px 50px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Global Header & Progress */
+      .top-progress-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: 100;
+      }
+      .top-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+      }
+
+      .header-badge {
+        position: absolute;
+        top: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 90;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 8px 22px;
+        border-radius: 9999px;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #93c5fd;
+      }
+      .header-badge .dot {
+        width: 10px;
+        height: 10px;
+        background: #38bdf8;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #38bdf8;
+      }
+
+      /* Typography */
+      .title-hero {
+        font-size: 58px;
+        font-weight: 900;
+        line-height: 1.15;
+        text-align: center;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .text-highlight-cyan {
+        background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .text-highlight-purple {
+        background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .text-highlight-amber {
+        background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .subtitle {
+        font-size: 32px;
+        font-weight: 500;
+        color: #94a3b8;
+        text-align: center;
+        line-height: 1.35;
+        max-width: 900px;
+      }
+
+      /* Glowing Cards */
+      .card-box {
+        background: rgba(15, 23, 42, 0.75);
+        border: 2px solid rgba(56, 189, 248, 0.25);
+        border-radius: 30px;
+        padding: 30px 40px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(56, 189, 248, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Step List */
+      .step-item {
+        width: 100%;
+        background: rgba(30, 41, 59, 0.7);
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 22px;
+        padding: 20px 28px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .step-badge {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+      .step-text {
+        font-size: 28px;
+        font-weight: 600;
+        color: #f1f5f9;
+        line-height: 1.3;
+      }
+
+      /* Benefit Row Cards */
+      .benefit-row {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        max-width: 960px;
+        margin-top: 30px;
+      }
+      .benefit-card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 28px 20px;
+        border-radius: 24px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 2px solid rgba(255, 255, 255, 0.12);
+      }
+      .benefit-icon {
+        font-size: 52px;
+        margin-bottom: 12px;
+      }
+      .benefit-title {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .benefit-desc {
+        font-size: 22px;
+        color: #94a3b8;
+        line-height: 1.3;
+      }
+
+      /* Background Gradients */
+      .glow-bg {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.25;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .glow-blue {
+        background: #0284c7;
+        top: 15%;
+        left: 10%;
+      }
+      .glow-purple {
+        background: #7c3aed;
+        bottom: 15%;
+        right: 10%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="square"
+      data-start="0"
+      data-duration="65.69"
+      data-width="1080"
+      data-height="1080"
+    >
+      <div class="top-progress-container">
+        <div id="progress-bar" class="top-progress-bar"></div>
+      </div>
+
+      <div class="header-badge" data-layout-ignore="true">
+        <span class="dot"></span>
+        <span>AI Simplified</span>
+      </div>
+
+      <div class="glow-bg glow-blue"></div>
+      <div class="glow-bg glow-purple"></div>
+
+      <audio
+        id="a-roll-audio"
+        src="../full_voiceover.wav"
+        data-start="0"
+        data-duration="65.69"
+        data-track-index="2"
+        data-volume="1"
+      ></audio>
+
+      <!-- SCENE 1: Hook & The Giant Robot (0.0s - 12.11s) -->
+      <div id="scene-1" class="clip" data-start="0" data-duration="12.11" data-track-index="1" style="opacity: 1;">
+        <div class="card-box" style="width: 860px; margin-bottom: 24px;">
+          <!-- Giant Robot SVG -->
+          <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.6));">
+            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+            <circle cx="12" cy="5" r="2"></circle>
+            <path d="M12 7v4"></path>
+            <line x1="8" y1="16" x2="8" y2="16"></line>
+            <line x1="16" y1="16" x2="16" y2="16"></line>
+            <path d="M9 19h6"></path>
+          </svg>
+          <div style="margin-top: 16px; padding: 6px 20px; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; border-radius: 9999px; font-size: 22px; font-weight: 800; color: #7dd3fc; letter-spacing: 1px;" data-layout-ignore="true">
+            TEACHER MODEL (671B+)
+          </div>
+        </div>
+
+        <h1 class="title-hero">
+          The <span class="text-highlight-cyan">Giant Robot</span>
+        </h1>
+
+        <p class="subtitle" style="margin-bottom: 20px;">
+          Super smart because it read <strong style="color: #fff;">millions of books</strong>.
+        </p>
+
+        <!-- Drawbacks Card -->
+        <div id="s1-drawbacks" style="width: 860px; background: rgba(239, 68, 68, 0.12); border: 1.5px solid rgba(239, 68, 68, 0.35); border-radius: 22px; padding: 18px 30px; display: flex; justify-content: space-around;">
+          <div style="text-align: center;">
+            <div style="font-size: 32px;">🐘</div>
+            <div style="font-size: 22px; font-weight: 700; color: #fca5a5; margin-top: 4px;" data-layout-ignore="true">Huge Size</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 32px;">⚡</div>
+            <div style="font-size: 22px; font-weight: 700; color: #fca5a5; margin-top: 4px;" data-layout-ignore="true">Massive Power</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 32px;">🐢</div>
+            <div style="font-size: 22px; font-weight: 700; color: #fca5a5; margin-top: 4px;" data-layout-ignore="true">Runs Slow</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 2: The Small Robot (12.11s - 18.44s) -->
+      <div id="scene-2" class="clip" data-start="12.11" data-duration="6.33" data-track-index="1">
+        <div class="card-box" style="width: 860px; border-color: rgba(192, 132, 252, 0.4); margin-bottom: 24px;">
+          <!-- Tiny Robot SVG -->
+          <svg width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.6));">
+            <rect x="5" y="10" width="14" height="11" rx="3"></rect>
+            <circle cx="12" cy="4" r="1.5"></circle>
+            <path d="M12 5.5v4.5"></path>
+            <line x1="9" y1="15" x2="9" y2="15"></line>
+            <line x1="15" y1="15" x2="15" y2="15"></line>
+            <path d="M10 18h4"></path>
+          </svg>
+          <div style="margin-top: 14px; padding: 6px 20px; background: rgba(192, 132, 252, 0.15); border: 1px solid #c084fc; border-radius: 9999px; font-size: 22px; font-weight: 800; color: #e9d5ff;" data-layout-ignore="true">
+            STUDENT MODEL (1.5B – 8B)
+          </div>
+        </div>
+
+        <h1 class="title-hero">
+          The <span class="text-highlight-purple">Tiny Robot</span>
+        </h1>
+
+        <p class="subtitle">
+          Wants to be smart too... but it <span style="color: #f87171; font-weight: 700;">cannot</span> read millions of books!
+        </p>
+
+        <div style="margin-top: 24px; font-size: 54px;">
+          📚 ❌ 🤖
+        </div>
+      </div>
+
+      <!-- SCENE 3: The Secret (18.44s - 22.44s) -->
+      <div id="scene-3" class="clip" data-start="18.44" data-duration="4.00" data-track-index="1">
+        <div style="padding: 10px 28px; background: rgba(251, 191, 36, 0.15); border: 2px solid #fbbf24; border-radius: 9999px; font-size: 24px; font-weight: 800; color: #fde047; margin-bottom: 24px;">
+          THE SECRET
+        </div>
+
+        <h1 class="title-hero" style="font-size: 64px; margin-bottom: 24px;">
+          How does it do it?
+        </h1>
+
+        <div class="card-box" style="width: 860px; padding: 36px; border-color: rgba(251, 191, 36, 0.4);">
+          <div style="font-size: 38px; font-weight: 800; text-align: center; color: #fff; line-height: 1.3;">
+            It learns <span class="text-highlight-amber">directly</span> from the giant robot!
+          </div>
+          <div style="margin-top: 20px; font-size: 58px;">
+            🐘 ➔ ⚡ ➔ 🤖
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 4: The 3 Steps (22.44s - 39.51s) -->
+      <div id="scene-4" class="clip" data-start="22.44" data-duration="17.07" data-track-index="1">
+        <h2 class="title-hero" style="font-size: 52px; margin-bottom: 24px;">
+          Here is <span class="text-highlight-cyan">how it works</span>:
+        </h2>
+
+        <div style="width: 860px;">
+          <div id="step-1" class="step-item">
+            <div class="step-badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">1</div>
+            <div class="step-text">
+              <strong>Ask Questions:</strong> Giant robot gets asked thousands of hard problems.
+            </div>
+          </div>
+
+          <div id="step-2" class="step-item">
+            <div class="step-badge" style="background: rgba(192, 132, 252, 0.2); color: #c084fc;">2</div>
+            <div class="step-text">
+              <strong>Observe Answers:</strong> Tiny robot watches every single reasoning step.
+            </div>
+          </div>
+
+          <div id="step-3" class="step-item">
+            <div class="step-badge" style="background: rgba(52, 211, 153, 0.2); color: #34d399;">3</div>
+            <div class="step-text">
+              <strong>Mimic Reasoning:</strong> Tiny robot learns to reproduce the smart solution.
+            </div>
+          </div>
+        </div>
+
+        <div id="s4-boom" class="card-box" style="width: 860px; margin-top: 10px; padding: 20px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2)); border-color: #fbbf24;">
+          <div style="font-size: 32px; font-weight: 900; color: #fef08a; text-align: center;">
+            💥 BOOM! Super smart in a fraction of size!
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 5: Sibling Metaphor (39.51s - 46.89s) -->
+      <div id="scene-5" class="clip" data-start="39.51" data-duration="7.38" data-track-index="1">
+        <div style="font-size: 68px; margin-bottom: 16px;">
+          👦 🧑‍🎓
+        </div>
+
+        <h1 class="title-hero" style="font-size: 56px;">
+          Like a <span class="text-highlight-purple">Younger Sibling</span>
+        </h1>
+
+        <div class="card-box" style="width: 860px; margin-top: 16px;">
+          <p class="subtitle" style="font-size: 34px; color: #f1f5f9; line-height: 1.4;">
+            Older sibling spent years studying.<br />
+            Younger sibling <span class="text-highlight-amber">skips zero</span> and learns the proven shortcuts!
+          </p>
+        </div>
+      </div>
+
+      <!-- SCENE 6: Why It Matters (46.89s - 55.16s) -->
+      <div id="scene-6" class="clip" data-start="46.89" data-duration="8.27" data-track-index="1">
+        <h1 class="title-hero" style="font-size: 54px; margin-bottom: 10px;">
+          Why does this <span class="text-highlight-cyan">matter?</span>
+        </h1>
+
+        <div class="benefit-row">
+          <div id="b-1" class="benefit-card" style="border-color: rgba(56, 189, 248, 0.4);">
+            <div class="benefit-icon">📱</div>
+            <div class="benefit-title text-highlight-cyan">On Your Phone</div>
+            <div class="benefit-desc">Compact enough to run offline locally</div>
+          </div>
+
+          <div id="b-2" class="benefit-card" style="border-color: rgba(251, 191, 36, 0.4);">
+            <div class="benefit-icon">⚡</div>
+            <div class="benefit-title text-highlight-amber">In a Flash</div>
+            <div class="benefit-desc">Zero latency, instant generation</div>
+          </div>
+
+          <div id="b-3" class="benefit-card" style="border-color: rgba(52, 211, 153, 0.4);">
+            <div class="benefit-icon">💰</div>
+            <div class="benefit-title" style="color: #6ee7b7;">Affordable</div>
+            <div class="benefit-desc">Costs almost nothing to serve</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 7: Outro & Knowledge Distillation (55.16s - 65.69s) -->
+      <div id="scene-7" class="clip" data-start="55.16" data-duration="10.53" data-track-index="1">
+        <div style="padding: 8px 26px; background: rgba(56, 189, 248, 0.15); border: 1.5px solid #38bdf8; border-radius: 9999px; font-size: 22px; font-weight: 800; color: #7dd3fc; margin-bottom: 16px; letter-spacing: 1.5px;" data-layout-ignore="true">
+          TECH CONCEPT
+        </div>
+
+        <h1 class="title-hero" style="font-size: 54px; line-height: 1.15; margin-bottom: 20px;">
+          <span class="text-highlight-cyan">Knowledge</span> <span class="text-highlight-purple">Distillation</span>
+        </h1>
+
+        <div class="card-box" style="width: 860px; padding: 28px; margin-bottom: 20px;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%;">
+            <div style="text-align: center; flex: 1; padding: 16px; background: rgba(56, 189, 248, 0.1); border-radius: 16px; border: 1px solid rgba(56, 189, 248, 0.3);">
+              <div style="font-size: 26px; font-weight: 800; color: #38bdf8;">DeepSeek-R1</div>
+              <div style="font-size: 20px; color: #94a3b8; margin-top: 4px;" data-layout-ignore="true">671B Teacher</div>
+            </div>
+
+            <div style="font-size: 34px; color: #fbbf24;">➔</div>
+
+            <div style="text-align: center; flex: 1; padding: 16px; background: rgba(192, 132, 252, 0.1); border-radius: 16px; border: 1px solid rgba(192, 132, 252, 0.3);">
+              <div style="font-size: 26px; font-weight: 800; color: #c084fc;">Qwen / Llama</div>
+              <div style="font-size: 20px; color: #94a3b8; margin-top: 4px;" data-layout-ignore="true">1.5B – 8B Distilled</div>
+            </div>
+          </div>
+
+          <p style="margin-top: 18px; font-size: 26px; color: #cbd5e1; text-align: center; line-height: 1.35;">
+            Big AI power compressed into lightweight models you can run anywhere.
+          </p>
+        </div>
+
+        <div style="font-size: 26px; font-weight: 700; color: #93c5fd; letter-spacing: 1px;">
+          Follow for more AI breakdowns!
+        </div>
+      </div>
+      <!-- DYNAMIC SUBTITLES / CAPTIONS -->
+      <div id="subtitles-container" style="position: absolute; bottom: 45px; left: 50%; transform: translateX(-50%); width: 880px; z-index: 80; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+        <div id="sub-box" style="background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(16px); border: 2px solid rgba(56, 189, 248, 0.4); border-radius: 20px; padding: 14px 28px; text-align: center; font-size: 28px; font-weight: 700; color: #ffffff; line-height: 1.35; box-shadow: 0 10px 30px rgba(0,0,0,0.7);">
+          <span id="cap-0" class="cap-item">Imagine this. There is a <span style="color:#38bdf8">giant robot</span>...</span>
+          <span id="cap-1" class="cap-item">...who is <span style="color:#fde047">super smart</span> from reading millions of books!</span>
+          <span id="cap-2" class="cap-item">But... it's huge, <span style="color:#f87171">drains power</span>, and runs slow.</span>
+          <span id="cap-3" class="cap-item">Then, there's a <span style="color:#c084fc">tiny robot</span>.</span>
+          <span id="cap-4" class="cap-item">It wants to be smart, but <span style="color:#f87171">cannot read</span> all those books.</span>
+          <span id="cap-5" class="cap-item">So, <span style="color:#fde047">how does it do it?</span></span>
+          <span id="cap-6" class="cap-item">It learns <span style="color:#38bdf8">directly</span> from the big robot!</span>
+          <span id="cap-7" class="cap-item">1. Giant robot answers tons of <span style="color:#38bdf8">hard questions</span>.</span>
+          <span id="cap-8" class="cap-item">2. Tiny robot observes every single <span style="color:#c084fc">reasoning step</span>.</span>
+          <span id="cap-9" class="cap-item">3. It <span style="color:#34d399">mimics</span> how the big robot thinks and responds.</span>
+          <span id="cap-10" class="cap-item"><span style="color:#fde047">BOOM!</span> The tiny robot is now super smart!</span>
+          <span id="cap-11" class="cap-item">Like a younger kid learning from an <span style="color:#c084fc">older sibling</span>.</span>
+          <span id="cap-12" class="cap-item">No need to start from zero—learn the <span style="color:#fde047">smart shortcuts!</span></span>
+          <span id="cap-13" class="cap-item"><span style="color:#38bdf8">Why does this matter?</span></span>
+          <span id="cap-14" class="cap-item">📱 Fits right on your <span style="color:#38bdf8">smartphone</span>,</span>
+          <span id="cap-15" class="cap-item">⚡ Responds in a <span style="color:#fde047">flash</span>,</span>
+          <span id="cap-16" class="cap-item">💰 Costs <span style="color:#34d399">almost nothing</span> to run.</span>
+          <span id="cap-17" class="cap-item">In AI, this is called <span style="color:#38bdf8">Knowledge Distillation</span>.</span>
+          <span id="cap-18" class="cap-item">Like <span style="color:#38bdf8">DeepSeek-R1</span> distilled into smaller models...</span>
+          <span id="cap-19" class="cap-item">...that you can run <span style="color:#fde047">locally anywhere!</span></span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Captions Timeline Sync
+      const captionTimes = [
+        { start: 0.0, end: 3.2 },
+        { start: 3.2, end: 6.8 },
+        { start: 6.8, end: 11.8 },
+        { start: 12.11, end: 15.0 },
+        { start: 15.0, end: 18.14 },
+        { start: 18.44, end: 20.3 },
+        { start: 20.3, end: 22.44 },
+        { start: 22.44, end: 26.5 },
+        { start: 26.5, end: 30.5 },
+        { start: 30.5, end: 34.5 },
+        { start: 34.5, end: 39.21 },
+        { start: 39.51, end: 43.0 },
+        { start: 43.0, end: 46.59 },
+        { start: 46.89, end: 49.5 },
+        { start: 49.5, end: 51.5 },
+        { start: 51.5, end: 53.2 },
+        { start: 53.2, end: 54.86 },
+        { start: 55.16, end: 58.5 },
+        { start: 58.5, end: 62.0 },
+        { start: 62.0, end: 65.69 }
+      ];
+
+      tl.set(".cap-item", { display: "none" }, 0);
+      tl.set("#cap-0", { display: "inline-block" }, 0);
+
+      captionTimes.forEach((time, i) => {
+        tl.set("#cap-" + i, { display: "inline-block" }, time.start);
+        tl.set("#cap-" + i, { display: "none" }, time.end);
+      });
+
+      // Overall Progress Bar
+      tl.to("#progress-bar", { width: "100%", duration: 65.69, ease: "none" }, 0);
+
+      // Scene 1 (0.0 to 12.11)
+      tl.set("#scene-1", { opacity: 1 }, 0);
+      tl.from("#s1-drawbacks", { opacity: 0, y: 20, duration: 1, ease: "power2.out" }, 5.5);
+      tl.to("#scene-1", { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" }, 11.8);
+
+      // Scene 2 (12.11 to 18.44)
+      tl.set("#scene-2", { opacity: 1 }, 12.11);
+      tl.from("#scene-2 .card-box", { scale: 0.8, opacity: 0, duration: 0.6, ease: "back.out(1.7)" }, 12.11);
+      tl.from("#scene-2 .title-hero", { y: 20, opacity: 0, duration: 0.5, ease: "power2.out" }, 12.4);
+      tl.to("#scene-2", { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" }, 18.1);
+
+      // Scene 3 (18.44 to 22.44)
+      tl.set("#scene-3", { opacity: 1 }, 18.44);
+      tl.from("#scene-3 .title-hero", { scale: 0.85, opacity: 0, duration: 0.5, ease: "back.out(1.5)" }, 18.44);
+      tl.from("#scene-3 .card-box", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, 19.2);
+      tl.to("#scene-3", { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" }, 22.1);
+
+      // Scene 4 (22.44 to 39.51)
+      tl.set("#scene-4", { opacity: 1 }, 22.44);
+      tl.from("#scene-4 .title-hero", { y: -15, opacity: 0, duration: 0.5, ease: "power2.out" }, 22.44);
+      tl.from("#step-1", { x: -40, opacity: 0, duration: 0.6, ease: "power2.out" }, 24.5);
+      tl.from("#step-2", { x: -40, opacity: 0, duration: 0.6, ease: "power2.out" }, 27.8);
+      tl.from("#step-3", { x: -40, opacity: 0, duration: 0.6, ease: "power2.out" }, 31.5);
+      tl.from("#s4-boom", { scale: 0.7, opacity: 0, duration: 0.7, ease: "elastic.out(1, 0.6)" }, 35.0);
+      tl.to("#scene-4", { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" }, 39.1);
+
+      // Scene 5 (39.51 to 46.89)
+      tl.set("#scene-5", { opacity: 1 }, 39.51);
+      tl.from("#scene-5 .title-hero", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, 39.51);
+      tl.from("#scene-5 .card-box", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, 40.5);
+      tl.to("#scene-5", { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" }, 46.5);
+
+      // Scene 6 (46.89 to 55.16)
+      tl.set("#scene-6", { opacity: 1 }, 46.89);
+      tl.from("#scene-6 .title-hero", { y: -15, opacity: 0, duration: 0.5, ease: "power2.out" }, 46.89);
+      tl.from("#b-1", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 48.0);
+      tl.from("#b-2", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 50.0);
+      tl.from("#b-3", { y: 30, opacity: 0, duration: 0.5, ease: "power2.out" }, 52.0);
+      tl.to("#scene-6", { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" }, 54.8);
+
+      // Scene 7 (55.16 to 65.69)
+      tl.set("#scene-7", { opacity: 1 }, 55.16);
+      tl.from("#scene-7 .title-hero", { scale: 0.9, opacity: 0, duration: 0.6, ease: "back.out(1.4)" }, 55.16);
+      tl.from("#scene-7 .card-box", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, 56.5);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["square"] = tl;
+    </script>
+  </body>
+</html>
+

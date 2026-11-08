@@ -1,0 +1,74 @@
+# ==========================================
+# Git Ignore for HyperFrames Video Project
+# ==========================================
+
+# Node & Package Managers
+node_modules/
+package-lock.json.backup
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# HyperFrames Internal Caches & Artifacts
+.hyperframes/
+.thumbnails/
+.waveform-cache/
+robot-distillation-video/
+
+# AI Model Files (Kokoro ONNX & Weights)
+# Downloaded dynamically via generate_voiceover.py
+*.onnx
+*.bin
+models/
+kokoro_models/
+
+# Python Virtual Environments & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.installed.cfg
+*.egg
+
+# Testing & Linting
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Editor & OS Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Render Outputs (Uncomment below if you prefer keeping .mp4 files out of git)
+# renders/*.mp4
+

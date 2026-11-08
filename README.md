@@ -74,7 +74,7 @@ Both formats feature **dynamic synchronized subtitles** with keyword highlights 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/ai-knowledge-distillation-video.git
+git clone https://github.com/anangbakti/ai-knowledge-distillation-video.git
 cd ai-knowledge-distillation-video
 ```
 

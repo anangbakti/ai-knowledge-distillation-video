@@ -1,0 +1,31 @@
+name: HyperFrames CI Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    name: Validate Compositions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (v22)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up FFmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v3
+        with:
+          ffmpeg-version: release
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run HyperFrames Check (Lint, Runtime, Layout, Motion, Contrast)
+        run: npm run check
